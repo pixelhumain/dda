@@ -4,9 +4,9 @@ class GetCoopDataAction extends CAction {
 
 	public function run() { 
 
-		$parentType = @$_POST["parentType"];
-		$parentId 	= @$_POST["parentId"];
-		$type 		= @$_POST["type"];
+		$parentType = (@$_GET["parentType"]) ? $_GET["parentType"] : @$_POST["parentType"];
+		$parentId 	= (@$_GET["parentId"]) ? $_GET["parentId"] : @$_POST["parentId"];
+		$type 		= (@$_GET["type"]) ? $_GET["type"] : @$_POST["type"];
 		$status 	= @$_POST["status"];
 		$dataId 	= @$_POST["dataId"];
 
@@ -19,7 +19,12 @@ class GetCoopDataAction extends CAction {
 			Yii::app()->end();
 		}*/
 
-		$auth = Authorisation::canParticipate(Yii::app()->session['userId'], $parentType, $parentId);
+		$cssAnsScriptFilesModule = array( 
+			'/js/uiCoop.js'
+		);
+		HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->getModule("dda")->getAssetsUrl() );
+
+		$auth = true;//Authorisation::canParticipate(Yii::app()->session['userId'], $parentType, $parentId);
 		$openData = Authorisation::isOpenData(Yii::app()->session['userId'], $parentType, $parentId);
 
 
@@ -47,8 +52,8 @@ class GetCoopDataAction extends CAction {
 
 		if(empty($dataId) || $type == Room::CONTROLLER) {
 			$page = "menuRoom";
-			$res["parentType"] = @$_POST["parentType"];
-			$res["parentId"] 	= @$_POST["parentId"];
+			$res["parentType"] = $parentType;
+			$res["parentId"] 	= $parentId;
 		}
 		else {
 			if($type == Proposal::CONTROLLER || $type == Proposal::COLLECTION){
@@ -96,18 +101,18 @@ class GetCoopDataAction extends CAction {
 			$res["parentId"] 	= @$_POST["parentId"];
 		}
 
-		if(empty($dataId) && $parentType == News::CONTROLLER) {
+		if(empty($dataId) && $parentType == News::CONTROLLER) 
 			$page = "moderation";
-			//$res["proposal"] = @$res["proposalList"][0];
-			//unset($res["proposalList"]);
-		}
-
-		//var_dump($res); exit;
 		
-		if(@$json == "false"){
+		if(@$json == "false" && Yii::app()->request->isAjaxRequest ){
 			echo $controller->renderPartial($page, $res, true);
 		}else{
-			return Rest::json($res);
+			if(!@$json || @$json == "false"){
+				$this->getController()->layout = "//layouts/empty";
+				echo $controller->render($page, $res, true);
+			}
+			else 
+				return Rest::json($res);
 			Yii::app()->end();
 		}
 

@@ -504,10 +504,10 @@
 	if(@$proposal["status"] != "amendable"){
 
 		if(@$proposal["answers"]){
-			$this->renderPartial('../cooperation/pod/voteMultiple', 
+			$this->renderPartial('dda.views.co.pod.voteMultiple', 
 					array("proposal"=>$proposal, "auth" => $auth, "hasVote" => $hasVote));
 		}else{
-			$this->renderPartial('../cooperation/pod/vote', 
+			$this->renderPartial('dda.views.co.pod.vote', 
 					array("proposal"=>$proposal, "auth" => $auth, "hasVote" => $hasVote));
 		}
 	}
@@ -550,7 +550,7 @@
 <hr>
 </div>
 
-<?php $this->renderPartial('../cooperation/amendements', 
+<?php $this->renderPartial('dda.views.co.amendements', 
 							array("amendements"=>@$proposal["amendements"], 
 								  "proposal"=>@$proposal,
 								  "auth"=>$auth)); ?>

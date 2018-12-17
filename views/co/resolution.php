@@ -171,11 +171,11 @@
 
 		<?php 			
 			if(@$resolution["answers"]){
-				$this->renderPartial('../cooperation/pod/voteMultiple', array("proposal"=>$resolution, 
+				$this->renderPartial('dda.views.co.pod.voteMultiple', array("proposal"=>$resolution, 
 																		  "hasVote" => $hasVote, 
 																		  "auth" => $auth));
 			}else{
-				$this->renderPartial('../cooperation/pod/vote', array("proposal"=>$resolution, 
+				$this->renderPartial('dda.views.co.pod.vote', array("proposal"=>$resolution, 
 																  "hasVote" => $hasVote, 
 																  "auth" => $auth));
 			}
@@ -243,7 +243,7 @@
 
 	<?php if(@$resolution["answers"]){ ?>
 		<div class="podvote">
-			<?php $this->renderPartial('../cooperation/pod/voteMultiple', array("proposal"=>$resolution, 
+			<?php $this->renderPartial('dda.views.co.pod.voteMultiple', array("proposal"=>$resolution, 
 																			  "hasVote" => $hasVote, 
 																			  "auth" => $auth));
 			?>
@@ -340,7 +340,7 @@
 	<hr>
 </div>
 
-<?php $this->renderPartial('../cooperation/amendements', 
+<?php $this->renderPartial('dda.views.co.amendements', 
 							array("amendements" => @$resolution["amendements"], 
 								  "proposal"    => @$resolution,
 								  "auth"        => $auth)); ?>

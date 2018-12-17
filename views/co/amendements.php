@@ -62,7 +62,7 @@
 		 		unset($voteRes["uncomplet"]);
 		 		$allVotesRes[$key] = $voteRes;
 
-		 		$this->renderPartial('../cooperation/pod/amendement', 
+		 		$this->renderPartial('dda.views.co.pod.amendement', 
 		 								array(	"key"=>$key, "am"=>$am, 
 		  										"proposal"=>@$proposal,
 												"author" => $author,

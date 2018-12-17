@@ -61,7 +61,7 @@
 	<?php
 		if(isset($roomList) && empty(@$roomList)){ ?>
 		<div class="col-lg-12 col-md-12 col-sm-12" id="menu-room">
-			<?php $this->renderPartial('../cooperation/pod/home', array("type"=>$thisType)); ?>
+			<?php $this->renderPartial('dda.views.co.pod.home', array("type"=>$thisType)); ?>
 		</div>
 	<?php }else{ ?>
 
@@ -225,7 +225,7 @@
 					<?php if(@$proposalList){
 							foreach(array("tovote", "amendable", "closed", "disabled", "resolved") as $thisStatus){ 
 								foreach($proposalList as $key => $proposal){ ?>
-									<?php $this->renderPartial('../cooperation/proposalLi', 
+									<?php $this->renderPartial('dda.views.co.proposalLi', 
 															   array("proposal"=>$proposal,
 															   		 "thisStatus" => $thisStatus,
 															   		 "isAdmin" => $isAdmin,
@@ -256,7 +256,7 @@
 					
 					<?php  	if(@$resolutionList)
 							foreach($resolutionList as $key => $resolution){ ?>
-								<?php $this->renderPartial('../cooperation/resolutionLi', 
+								<?php $this->renderPartial('dda.views.co.resolutionLi', 
 															   array("resolution"=>$resolution,
 															   		 //"thisStatus" => $thisStatus,
 															   		 //"isAdmin" => $isAdmin,
@@ -304,7 +304,7 @@
 					
 					<?php   if(@$actionList)
 							foreach($actionList as $key => $action){ ?>
-								<?php $this->renderPartial('../cooperation/actionLi', 
+								<?php $this->renderPartial('dda.views.co.actionLi', 
 															   array("action"=>$action,
 															   		 "thisStatus" => @$thisStatus,
 															   		 "isAdmin" => $isAdmin,

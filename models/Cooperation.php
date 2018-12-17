@@ -58,7 +58,7 @@ class Cooperation {
 		else return "dark";
 	}
 
-	public static function getCoopData($parentType, $parentId, $type, $status=null, $dataId=null){
+	public static function getCoopData( $parentType, $parentId, $type, $status=null, $dataId=null ){
 		
 		$res = array();
 

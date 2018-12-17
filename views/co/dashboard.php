@@ -1,5 +1,10 @@
 <?php 
 
+$cssAnsScriptFilesModule = array( 
+	'/js/uiCoop.js'
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->getModule("dda")->getAssetsUrl() );
+
 	$isAdmin = Authorisation::isElementAdmin(@$parentId, @$parentType, Yii::app()->session['userId']);
 
 	$allElements = array();
@@ -60,7 +65,24 @@
 	}
 
 </style>
-<div class="col-xs-12 no-padding menu-dashboard-dda shadow2 font-montserrat">
+
+<?php //render of modal for coop spaces 
+		// $params = array(  "element" => @$elem, 
+  //                           "type" => @$type, 
+  //                           "edit" => @$edit,
+  //                           "thumbAuthor"=>@$thumbAuthor,
+  //                           "openEdition" => @$openEdition,
+  //                           "iconColor" => @$iconColor
+  //                       );
+
+  //   	$this->renderPartial('dda.views.co.pod.modals', $params ); 
+    ?>
+<div class="modal-body col-lg-12 col-md-12 col-sm-12 padding-15">
+	  <ul id="menuCoop" class="menuCoop col-lg-2 col-md-3 col-sm-3">
+	</ul>
+	<div id="main-coop-container" class="col-lg-10 col-md-9 col-sm-9"></div>
+</div>
+<div class="col-xs-12 no-padding menu-dashboard-dda shadow2 font-montserrat" style="margin-top:70px">
 	<button class="col-xs-4 btn btn-link no-border" data-type-coop="proposals">
 		<i class="fa fa-gavel"></i>
 		<span class="dda-proposal-count topbar-badge badge animated bounceIn bg-turq">
@@ -83,26 +105,13 @@
 
 <div class="col-xs-12 no-padding" id='scroll-dashboard-dda'>
 
-	<div class='col-xs-12 margin-top-10 focus sub-proposals'>
-		<label class="info font-montserrat">
-			<i class="fa fa-info-circle"></i> Liste des propositions à voter et amender en ce moment...
-		</label>
-	</div>
-	<div class='col-xs-12 margin-top-10 focus sub-resolutions'>
-		<label class="info font-montserrat">
-			<i class="fa fa-info-circle"></i> Liste des résolutions des 7 derniers jours...
-		</label>
-	</div>
-	<div class='col-xs-12 margin-top-10 focus sub-actions'>
-		<label class="info font-montserrat">
-			<i class="fa fa-info-circle"></i> Liste des actions sans participant, et celles auxquelles vous participez...
-		</label>
-	</div>
-
 	<?php
 		foreach($allElements as $elements){ 
 			foreach($elements as $elem){ 
 
+				?>
+				<div class="col-xs-4">
+				<?php
 				$color = Element::getColorIcon($elem["type"]);
 				$icon = Element::getFaIcon($elem["type"]);
 
@@ -123,14 +132,15 @@
 				if($countProposal>0) $focusType .= "sub-proposals ";
 				if($countResolution>0) $focusType .= "sub-resolutions ";
 				if($countAction>0) $focusType .= "sub-actions ";
-
-				echo "<h5 class='col-xs-12 no-padding letter-".$color."  focus ".$focusType."'>".
+				echo "<h5 class='col-xs-12 no-padding focus ".$focusType."'><a href='javascript:;' class=' letter-".$color." elementTitle' data-id='".$elem["id"]."'>".
 						"<hr class='margin-top-5 margin-bottom-10'>".
 						"<i class='fa fa-angle-down margin-left-15'></i> ".
 						"<i class='fa fa-".$icon."'></i> ".
-						$elem["name"].
+						$elem["name"]."</a>".
+						" <a href='javascript:;' data-id='".$elem["id"]."' data-type='".$elem["type"]."' class=' openCoop pull-right'><i class='fa fa-external-link'></i></a>".
 						"<hr class='margin-top-10 margin-bottom-5'>".
-					 "</h5>";
+					 "</h5>".
+					 '<div class="" id="data'.$elem["id"].'">';
 
 				foreach(array("tovote", "amendable") as $thisStatus){ 
 					foreach($elem[$thisStatus]["proposalList"] as $key => $proposal){ //var_dump($proposal1);exit;
@@ -167,34 +177,53 @@
 												   		 "post" => @$post));
 					} //end foreach
 				} //end foreach
-
+				?>
+				</div></div>
+				<?php
 			} //end foreach
 		} //end foreach
 	?>
 </div>
 
 <script type="text/javascript">
+var contextData = {  
+  "name": "<?php echo $elem['name'] ?>",
+  "type": "<?php echo $elem['type'] ?>",
+  "slug": "<?php echo $elem['slug'] ?>",
+  "typeSig": "<?php echo $elem['type'] ?>",
+  "id": "<?php echo $elem['id'] ?>"
+};
+jQuery(document).ready(function() { 
 	
-	jQuery(document).ready(function() { 
-		uiCoop.initBtnLoadDataPreview();
+	uiCoop.initBtnLoadDataPreview();
 
-		resizeInterface();
-
-		$(".focus").hide();
-		$(".focus.sub-proposals").show();
-
-		$(".menu-dashboard-dda .btn-link").click(function(){
-			var type = $(this).data("type-coop");
-			$(".focus").hide(200);
-			$(".focus.sub-"+type).show(200);
-			$("#scroll-dashboard-dda").scrollTop(0);
-		});
-
-		$("#list-dashboard-dda").off().mouseleave(function(){
-			$("#dropdown-dda").removeClass("open");
-			$("#list-dashboard-dda").off();
-		});
-
+	$(".menu-dashboard-dda .btn-link").click(function(){
+		var type = $(this).data("type-coop");
+		$(".focus").hide(200);
+		$(".focus.sub-"+type).show(200);
+		$("#scroll-dashboard-dda").scrollTop(0);
 	});
+
+	$("#list-dashboard-dda").off().mouseleave(function(){
+		$("#dropdown-dda").removeClass("open");
+		$("#list-dashboard-dda").off();
+	});
+
+	$(".elementTitle").off().click(function(){
+		$("#data"+$(this).data('id')).toggleClass("hidden");
+	});
+	$(".openCoop").off().click(function(){
+		contextData.id = $(this).data('id');
+		contextData.type = $(this).data('type');
+		uiCoop.loadCoop();
+	});
+
+
+	
+});
+
+function loadNewsStream(isLiveBool){
+
+}
 
 </script>

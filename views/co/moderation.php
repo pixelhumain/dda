@@ -110,7 +110,7 @@
 	</button>
 </div>
 
- <?php $this->renderPartial('../cooperation/pod/explain_moderation'); ?>
+ <?php $this->renderPartial('dda.views.co.pod.explain_moderation'); ?>
 
 <ul class="col-lg-8 col-md-8 col-sm-10 col-xs-12 margin-top-15 timeline" id="news-to-moderate">
 	
@@ -135,7 +135,7 @@
 
 <?php 
 	if(@$proposal["status"] != "amendable") 
-		$this->renderPartial('../cooperation/pod/voteModeration', 
+		$this->renderPartial('dda.views.co.pod.voteModeration', 
 				array("proposal"=>$proposal, "auth" => $auth, "hasVote" => $hasVote));
 ?>
 
@@ -225,7 +225,7 @@
 <hr>
 </div>
 
-<?php $this->renderPartial('../cooperation/amendements', 
+<?php $this->renderPartial('dda.views.co.amendements', 
 							array("amendements"=>@$proposal["amendements"], 
 								  "proposal"=>@$proposal,
 								  "auth"=>$auth)); ?>

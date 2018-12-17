@@ -24,6 +24,7 @@ class GetMyDashboardCoopAction extends CAction {
 		else if(is_array($memberOfProject)) $memberOf = $memberOfProject;
 
 		$res = array();
+		//pour tout links recup les coop
 		foreach ($memberOf as $id => $element) {
 			$allElement = Element::getByTypeAndId($element["type"], $id);
 
@@ -65,6 +66,7 @@ class GetMyDashboardCoopAction extends CAction {
 				$res[$element["type"]][] = array("id" => $id,
 												 "name" => @$allElement["name"],
 												 "type" => @$element["type"],
+												 "slug" => @$element["slug"],
 												 "amendable"=>$amendable,
 												 "tovote"=>$tovote,
 												 "actions"=>$actions,
@@ -81,7 +83,7 @@ class GetMyDashboardCoopAction extends CAction {
 		//var_dump($memberOf); exit;
 		
 		if(@$json == "false"){
-			echo $controller->renderPartial("dashboard", $res, true);
+			echo $controller->render("dashboard", $res, true);
 		}else{
 			return Rest::json($res);
 			Yii::app()->end();

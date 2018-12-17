@@ -8,23 +8,6 @@
         		aria-label="Close"><i class="fa fa-times"></i>
         </button>
 
-        <?php 
-            if( isset( Yii::app()->session['userId']) ){
-              $me = Element::getByTypeAndId("citoyens", Yii::app()->session['userId']);
-              $profilThumbImageUrl = Element::getImgProfil($me, "profilThumbImageUrl", $this->module->assetsUrl);
-              //$countNotifElement = ActivityStream::countUnseenNotifications(Yii::app()->session["userId"], Person::COLLECTION, Yii::app()->session["userId"]);
-        ?> 
-         <!-- #page.type.citoyens.id.<?php echo Yii::app()->session['userId']; ?> -->
-        <a  href="#page.type.citoyens.id.<?php echo Yii::app()->session['userId']; ?>"
-            class="menu-name-profil lbh text-dark pull-right shadow2" 
-            data-toggle="dropdown">
-                <small class="hidden-xs hidden-sm margin-left-10 bold" id="menu-name-profil">
-                    <?php echo @$me["name"] ? $me["name"] : @$me["username"]; ?>
-                </small> 
-                <img class="img-circle" id="menu-thumb-profil" 
-                     width="40" height="40" src="<?php echo $profilThumbImageUrl; ?>" alt="image" >
-        </a>
-        <?php } ?>
 
         <button href="javascript:" class="btn btn-default btn-sm text-dark pull-right tooltips"
 				id="btn-update-coop" style="margin: 10px 10px 0 0;" data-original-title="<?php echo Yii::t("cooperation", "Reload window") ?>" data-placement="left">
@@ -112,7 +95,7 @@
       </div>
        -->
        <div class="modal-body padding-25">
-		<?php $this->renderPartial('co2.views.cooperation.pod.home', array("type"=>$type)); ?>
+		<?php $this->renderPartial('dda.views.co.pod.home', array("type"=>$type)); ?>
       </div>
       <div class="modal-footer">
       	<div id="modalAction" style="display:inline"></div>

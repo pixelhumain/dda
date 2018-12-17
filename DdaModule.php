@@ -83,8 +83,8 @@ class DdaModule extends CWebModule {
 
 		$this->setImport(array(
 			'citizenToolKit.models.*',
-			'dda.models.*',
 			'eco.models.*',
+			'news.models.*',
 			Yii::app()->params["module"]["parent"].'.models.*',
 			Yii::app()->params["module"]["parent"].'.components.*',
 			$this->id.'.models.*',

@@ -32,7 +32,7 @@
 	<?php if(@$access=="deny"){ exit; } ?>
 	
 	<div id="coop-room-list" class="margin-bottom-50">
-		<?php $this->renderPartial('../cooperation/roomList', array("roomList"=>$menuCoopData["roomList"], 
+		<?php $this->renderPartial('dda.views.co.roomList', array("roomList"=>$menuCoopData["roomList"], 
 																	"auth"=>$auth,
 																	"parentType" => @$parentType,
 																	"parentId" => @$parentId)); ?>
